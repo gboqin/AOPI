@@ -1,0 +1,78 @@
+﻿@{
+    NH.JewelryErpMini.Models.viewDto.UserDto user = (NH.JewelryErpMini.Models.viewDto.UserDto)NH.JewelryErpMini.Helpers.UserHelper.Instance.GetUser();
+}
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEWELRY(Demo)</title>
+    @Styles.Render("~/Content/css")
+    @RenderSection("styles", required: false)
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    <style type="text/css">
+    body {margin: 0; padding: 0;}
+    .container {/*width: 1000px;*/margin: 2px auto 0px auto;padding: 0;}
+    /*div ul { background-color: #0055A6;}*/
+    div ul { background-color: #2D1152;}
+    div ul li a {color: white;}
+    </style>
+</head>
+<body style="overflow-y:hidden">
+    @*container*@
+    <div class="container-fluid">
+        <nav class="navbar" style="padding-right:15px; margin-bottom:5px; ">
+            <ul class="nav navbar-nav" style="width:100%;">
+                @{ switch (user.usr_Dept_Id)
+                    {
+                        case 1:
+                            <li class="active"><a onclick="location.href='@Url.Action("Index", "Home")'">首页</a></li>;
+                            <li class="active"><a onclick="location.href='@Url.Action("Index", "BusinessMsg")'">营业管理</a></li>;
+                            break;
+                        case 2:
+                            <li class="active"><a onclick="location.href='@Url.Action("Index", "Home")'">首页</a></li>;
+                            <li class="active"><a onclick="location.href='@Url.Action("Index", "BusinessMsg")'">营业管理</a></li>;
+                            break;
+                        case 3:
+                            <li class="active"><a onclick="location.href='@Url.Action("Index", "BusinessMsg")'">首页</a></li>;
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown">营业管理<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a onclick="location.href='@Url.Action("Index", "Business")'">营业进度</a></li>
+                                    <li class="divider"></li>
+                                    <li><a onclick="location.href='@Url.Action("MasterFiles","Business")'">MasterFiles</a></li>
+                                    <li class="divider"></li>
+                                    <li><a onclick="location.href='@Url.Action("AllBrandOutstandingReport","Business")'">All Brand Outstanding</a></li>
+                                    <li><a onclick="location.href='@Url.Action("TypeOutstandingReport","Business")'">Type Outstanding</a></li>
+                                    <li><a onclick="location.href='@Url.Action("InspectedOutstandingReport","Business")'">Inspected Outstanding</a></li>                                
+                                </ul>
+                            </li>;
+                            break;
+                    } }
+                <li class="navbar-right">
+                    <a onclick="location.href='@Url.Action("LogOff", "Account")'" style="background-color:#2D1152;color: red; cursor pointer;">注销</a>
+                </li>
+                <li class="navbar-right">
+                    <a style="background-color:#2D1152;color: white;">用户：@user.usr_Name</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+        
+        @*<div class="container body-content">*@
+        <div class="container-fluid">
+            @RenderBody()
+        </div>
+        @*<div class="modal hide fade" id="myModal" tabindex="-1" role="dialog">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal">×</button>
+                    <h3 id="myModalLabel">Modal header</h3>
+                </div>
+                <div class="modal-body"></div>
+            </div>*@
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+</body>
+</html>

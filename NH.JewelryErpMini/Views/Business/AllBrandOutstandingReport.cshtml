@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "AllBrandOutstandingReport";
+    IList<NH.JewelryErpMini.Models.viewDto.ColumnDto> columns = (IList<NH.JewelryErpMini.Models.viewDto.ColumnDto>)ViewBag.Columns;
+    string brand = ViewBag.Brand;
+}
+
+<script type="text/javascript">
+    function doClick() {
+        location.href = '../Business/AllBrandOutstandingReport?brands=' + $('#brandNo').combobox('getValue');
+    }
+</script>
+<div>
+    <div class="panel panel-info" style="border:1px solid #BCE8F1">
+        <div class="panel-heading">All BrandOutstanding Report</div>
+        <table>
+            <tr>
+                <td><span>&nbsp;品牌&nbsp;</span></td>
+                <td>
+                    <select id="brandNo" class="easyui-combobox" style="width:181px;" data-options="url:'../api/apiBusiness/GetBrands',method:'get',valueField:'Id',textField:'Title',panelHeight:'auto'"></select>
+                </td>
+                <td>&nbsp;<input id="mybutton" type="button" class="btn btn-primary" value="查询" onclick="doClick()" /></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div style="height:400px;">
+    <table id="mygrid" class="easyui-datagrid" title="All Brand Outstanding"
+           data-options="toolbar:'#toolbar', singleSelect:true, fit: true,method:'get',showFooter:true,rownumbers: true,url:'../api/apiBusiness/GetAllBrandOutstandingReportData?brands=@brand'">
+        <thead>
+            <tr>
+                <th data-options="field:'Month',width:100">月份</th>
+                @foreach (var item in columns)
+            {
+                    <th data-options="field:'@item.Field',width:100">@item.Title</th>
+                }
+                <th data-options="field:'Total',width:100">总计</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+<div id="toolbar">
+    <div class="btn-group">
+        <div class="btn-group">
+            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">另存为</button>
+            <ul class="dropdown-menu" role="menu">
+                <li><a id="expotasscv" href="#" onclick="location.href='@Url.Action("AllBrandOutstandingSaveas","Business", new {ExportTypeIndex=1,brands=brand })'">导出到.csv</a></li>
+                <li><a id="expotasxls" href="#" onclick="location.href='@Url.Action("AllBrandOutstandingSaveas", "Business", new { ExportTypeIndex=2,brands=brand})'">导出到.xls</a></li>
+                <li><a id="expotasxlsx" href="#" onclick="location.href='@Url.Action("AllBrandOutstandingSaveas", "Business", new { ExportTypeIndex=3,brands=brand})'">导出到.xlsx</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function loadbox() {
+        if ('@brand'!=""){
+            $('#brandNo').combobox('select', '@brand');
+        }
+    }
+    window.onload = loadbox;
+</script>
+
+@section styles{
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/themes/icon.css")" />
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/themes/default/icon.css")" />
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/themes/default/easyui.css")" />
+}
+@section scripts{
+    <script src="@Url.Content("~/Scripts/jquery.easyui-1.4.3.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.easyui-1.4.3.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/locale/easyui-lang-zh_CN.js")"></script>
+}
+

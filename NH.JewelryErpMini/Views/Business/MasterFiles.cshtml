@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<div id="divgrid">
+</div>
+
+<div>
+    @using (@Html.BeginForm("ImportExcel", "Business", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+    {
+        <div class="row" style="margin-left:0;">
+            <span>选择上传excel文件:(工作表名为“Sheet1”，表格标题栏在A1单元格开始，且标题名不能重复。)</span>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <input id="fileUpload" name="fileUpload" type="file" style="display:none;" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                <div class="input-group">
+                    <input id="fileText" type="text" class="form-control" disabled />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-info" onclick="$('#fileUpload').click()"><i class="glyphicon glyphicon-folder-open"></i>浏览</button>
+                        <button type="button" class="btn btn-warning" onclick="$('#fileUpload').val('')"><i class="glyphicon glyphicon-trash"></i>移除</button>
+                        <button type="button" class="btn btn-primary" onclick="submit();">导入</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <script>
+            $("#fileUpload").change(function () {
+                $("#fileText").val($(this).val());
+            });
+        </script>
+    }
+</div>

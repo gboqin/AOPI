@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/themes/icon.css")" />
+<link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/themes/default/icon.css")" />
+<link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/themes/default/easyui.css")" />
+<script src="@Url.Content("~/Scripts/jquery.easyui-1.4.3.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery.easyui-1.4.3.min.js")"></script>
+<script src="@Url.Content("~/Scripts/locale/easyui-lang-zh_CN.js")"></script>
+@*<script src="@Url.Content("~/Scripts/locale/datagrid-filter.js")"></script>*@
+<script type="text/javascript">
+    //找不到datagrid对象，因_Layout.cxhtml把jquery.js放在后
+    $(document).ready(function () {
+        $('#container').hide();
+    });
+</script>
+<style type="text/css">
+    .space {margin:2px 0px;}
+</style>
+
+    <div>
+        <div class="panel panel-info" style="border:1px solid #BCE8F1">
+            <div class="panel-heading">订单进度</div>
+            <table>
+                <tr>
+                    <td><input id="AfterDates" type="number" class="form-control space" style="width:45px" /></td>
+                    <td><span>&nbsp;天到期&nbsp;</span></td>
+                    <td><span>&nbsp;订单号&nbsp;</span></td>
+                    <td><input id="OrderNo" type="text" class="form-control" /></td>
+                    <td><span>&nbsp;款号&nbsp;</span></td>
+                    <td><input id="StyleNo" type="text" class="form-control" /></td>
+                    <td><span>&nbsp;型号&nbsp;</span></td>
+                    <td><input id="ModelNo" type="text" class="form-control" /></td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td><span>&nbsp;品牌&nbsp;</span></td>
+                    <td><input id="BrandNo" type="text" class="form-control space" /></td>
+                    <td><span>&nbsp;类型&nbsp;</span></td>
+                    <td>
+                        <select id="OrderTypeNo" class="form-control">
+                            <option></option>
+                            <option value="old">返单</option>
+                            <option value="new">新款</option>
+                        </select>
+                    </td>
+                    <td>&nbsp;<input id="Finished" type="checkbox" /><span>&nbsp;显示已完成</span></td>
+                    <td>&nbsp;<input type="button" class="btn btn-primary" value="查询" onclick="doSearch('#grid', '#divgrid', '#toolbar', '../API/apiBusiness/GetListBySearch')" /></td>
+                    <td>&nbsp;<input type="button" class="btn btn-warning" value="清空" onclick="doClear('#grid', '#divgrid', '../API/apiBusiness/GetList')" /></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div>
+        <div id="toolbar"></div>
+        <div id="divgrid">
+            <table id="grid"></table>
+        </div>
+    </div>
+
+@Scripts.Render("~/Scripts/businessGrid")
+
+
+

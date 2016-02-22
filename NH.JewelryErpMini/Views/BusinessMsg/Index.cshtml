@@ -1,0 +1,147 @@
+﻿@model IEnumerable<NH.JewelryErpMini.Models.Domain.BusinessMessage>
+@{
+    ViewBag.Title = "Index";
+}
+<link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/themes/icon.css")" />
+<link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/themes/default/icon.css")" />
+<link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/themes/default/easyui.css")" />
+<script src="@Url.Content("~/Scripts/jquery.easyui-1.4.3.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery.easyui-1.4.3.min.js")"></script>
+<script src="@Url.Content("~/Scripts/locale/easyui-lang-zh_CN.js")"></script>
+<script src="@Url.Content("~/Scripts/projectJs/setMonth.js")"></script>
+<style type="text/css">
+    #dlg {
+        width: 970px;
+        height: 600px;
+    }
+    .space {margin-bottom:10px;}
+    .tdspace {margin:2px 0px;}
+    .groupspace{padding:7px 15px;}
+    .itemspace{padding:5px 15px;}
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#thismonth").html(setMonth(0));
+        $("#nextmonth").html(setMonth(1));
+        $("#twolatermonth").html(setMonth(2));
+        Initialization('#dlg');
+    });
+</script>
+<div>
+    <div class="row">
+            @*<div class="col-md-12">*@
+        <div class="col-md-12">
+            <div class="panel panel-info" style="border:1px solid #95B8E7">
+                <div class="panel-heading groupspace" style="background-color:#EBF2FF;border-color:#95B8E7;color:black;">营业订单进度</div>
+                <ul class="list-group">
+                    @foreach (var item in Model)
+                    {
+                        switch (item.countTypeId)
+                        {
+                            case 1:
+                                <li class="list-group-item itemspace">迟期订单记录数量:<a onclick="showMsg('#dlg','#grid','#toolbar','#btn-search','../API/apiBusinessMsg/GetLater',@item.countTypeId,@item.total)"><span class="badge">@item.total</span></a></li>;
+                                break;
+                            case 2:
+                                <li class="list-group-item itemspace">近两周未完成订单记录数量：<a onclick="showMsg('#dlg','#grid','#toolbar','#btn-search','../API/apiBusinessMsg/GetTwoweeks',@item.countTypeId,@item.total)"><span class="badge">@item.total</span></a></li>;
+                                break;
+                            case 3:
+                                <li class="list-group-item itemspace"><span id="thismonth"></span>月份未完成订单记录数量：<a onclick="showMsg('#dlg','#grid','#toolbar','#btn-search','../API/apiBusinessMsg/GetMonth',@item.countTypeId,@item.total)"><span class="badge">@item.total</span></a></li>;
+                                break;
+                            case 4:
+                                <li class="list-group-item itemspace"><span id="nextmonth"></span>月份未完成订单记录数量：<a onclick="showMsg('#dlg','#grid','#toolbar','#btn-search','../API/apiBusinessMsg/GetNextMonth',@item.countTypeId,@item.total)"><span class="badge">@item.total</span></a></li>;
+                                break;
+                            case 5:
+                                <li class="list-group-item itemspace"><span id="twolatermonth"></span>月份未完成订单记录数量：<a onclick="showMsg('#dlg','#grid','#toolbar','#btn-search','../API/apiBusinessMsg/GetTwoMonths',@item.countTypeId,@item.total)"><span class="badge">@item.total</span></a></li>;
+                                break;
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+
+        </div>
+        @*间格*@
+    <div class="row"><div class="col-md-12" style="margin-top:20px;"></div></div>
+    <div class="row">
+            <div class="col-sm-6">
+                <div class="panel panel-info" style="border:1px solid #95B8E7">
+                    <div class="panel-heading groupspace" style="background-color:#EBF2FF;border-color:#95B8E7;color:black;">机加工</div>
+                    <ul class="list-group">
+                        <li class="list-group-item itemspace">待实现</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="panel panel-info" style="border:1px solid #95B8E7">
+                    <div class="panel-heading groupspace" style="background-color:#EBF2FF;border-color:#95B8E7;color:black;">磨光</div>
+                    <ul class="list-group">
+                        <li class="list-group-item itemspace">待实现</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        @*间格*@
+    <div class="row"><div class="col-md-12" style="margin-top:20px;"></div></div>
+    <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-info" style="border:1px solid #95B8E7">
+                    <div class="panel-heading groupspace" style="background-color:#EBF2FF;border-color:#95B8E7;color:black;">装配</div>
+                    <ul class="list-group">
+                        <li class="list-group-item itemspace">待实现</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-info" style="border:1px solid #95B8E7">
+                    <div class="panel-heading groupspace" style="background-color:#EBF2FF;border-color:#95B8E7;color:black;">电镀</div>
+                    <ul class="list-group">
+                        <li class="list-group-item itemspace">待实现</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+</div>
+<div id="dlg">
+    <div id="toolbar">
+    <table>
+        <tr>
+            <td><span>&nbsp;订单号&nbsp;</span></td>
+            <td><input id="OrderNo" type="text" class="form-control tdspace" /></td>
+            <td><span>&nbsp;款号&nbsp;</span></td>
+            <td><input id="StyleNo" type="text" class="form-control" /></td>
+            <td><span>&nbsp;型号&nbsp;</span></td>
+            <td><input id="ModelNo" type="text" class="form-control" /></td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td><span>&nbsp;品牌&nbsp;</span></td>
+            <td><input id="BrandNo" type="text" class="form-control tdspace" /></td>
+            <td><span>&nbsp;类型&nbsp;</span></td>
+            <td>
+                <select id="OrderTypeNo" class="form-control">
+                    <option></option>
+                    <option value="old">返单</option>
+                    <option value="new">新款</option>
+                </select>
+            </td>
+            @*<td>&nbsp;<input id="Finished" type="checkbox" /><span>&nbsp;显示已完成</span></td>*@
+            <td>&nbsp;<input id="btn-search" type="button" class="btn btn-primary" value="查询" /></td>
+            @*待实现功能，excel报表*@
+            <td>&nbsp;<div class="btn-group">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">演示数据报表</button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a id="expotasscv" href="~/Businessmsg/GetExportExcelUrl?ExportTypeIndex=1">导出到.csv</a></li>
+                            <li><a id="expotasxls" href="~/Businessmsg/GetExportExcelUrl?ExportTypeIndex=2">导出到.xls</a></li>
+                            <li><a id="expotasxlsx" href="~/Businessmsg/GetExportExcelUrl?ExportTypeIndex=3">导出到.xlsx</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    </div>
+    <table id="grid"></table>
+</div>
+@Scripts.Render("~/Scripts/businessmsgGrid")
